@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Lista surowców</title>
+</head>
+<body>
+<h1>Lista surowców</h1>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Nazwa</th>
+        <th>Cena</th>
+    </tr>
+    <tr th:each="s : ${surowce}">
+        <td th:text="${s.id}">1</td>
+        <td th:text="${s.nazwa}">Surowiec</td>
+        <td th:text="${s.cena}">0.0</td>
+    </tr>
+</table>
+</body>
+</html>

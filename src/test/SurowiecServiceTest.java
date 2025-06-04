@@ -1,5 +1,3 @@
-package com.surowce;
-
 import com.surowce.entity.Surowiec;
 import com.surowce.service.SurowiecService;
 import org.junit.jupiter.api.Test;
