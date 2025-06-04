@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/tailwind.min.css}"/>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+</head>
+<body class="bg-gray-100 p-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="bg-white rounded-2xl shadow p-4">
+        <h2 class="text-xl mb-2">Surowce</h2>
+        <input id="dateFrom" type="date" class="border p-1 mr-2"/>
+        <input id="dateTo" type="date" class="border p-1 mr-2"/>
+        <button id="filterBtn" class="bg-blue-600 text-white px-3 py-1 rounded">Filtruj</button>
+        <table class="w-full mt-4">
+            <thead><tr><th>ID</th><th>Nazwa</th><th>Cena</th></tr></thead>
+            <tbody>
+            <tr th:each="s : ${surowce}" class="hover:bg-gray-100 cursor-pointer" th:data-id="${s.id}">
+                <td th:text="${s.id}"></td>
+                <td th:text="${s.nazwa}"></td>
+                <td th:text="${s.cena}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <canvas id="priceChart" class="mt-4"></canvas>
+    </div>
+    <div class="bg-white rounded-2xl shadow p-4">
+        <h2 class="text-xl mb-2">Konflikty</h2>
+        <table class="w-full">
+            <thead><tr><th>ID</th><th>Nazwa</th><th>Państwa</th></tr></thead>
+            <tbody>
+            <tr th:each="k: ${konflikty}">
+                <td th:text="${k.id}"></td>
+                <td th:text="${k.location}"></td>
+                <td th:text="${k.sideA} + ' vs ' + ${k.sideB}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

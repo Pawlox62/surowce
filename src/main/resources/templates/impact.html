@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Surowce i konflikty</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.4/dist/tailwind.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="p-6 bg-gray-100">
+<div class="max-w-5xl mx-auto">
+    <div class="mb-4">
+        <label class="mr-2">Surowiec:</label>
+        <select id="sel" class="border p-1">
+            <option th:each="s : ${surowce}"
+                    th:value="${s.id}"
+                    th:text="${s.nazwa}">
+                Surowiec
+            </option>
+        </select>
+
+        <label class="ml-4 mr-1">Od:</label>
+        <input type="date" id="from" value="1900-01-01" class="border p-1"/>
+
+        <label class="ml-4 mr-1">Do:</label>
+        <input type="date" id="to" value="2025-12-31" class="border p-1"/>
+
+        <button id="btn" class="ml-4 px-3 py-1 bg-blue-600 text-white rounded">Pokaż</button>
+    </div>
+    <canvas id="chart"></canvas>
+</div>
+
+<!-- Dodane biblioteki SockJS i Stomp -->
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+<script src="/js/impact.js"></script>
+</body>
+</html>

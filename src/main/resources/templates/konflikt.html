@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Konflikt [[${konflikt.id}]]</title>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.4/dist/tailwind.min.css">
+</head>
+<body class="p-6 bg-gray-100">
+<div class="max-w-xl mx-auto bg-white p-6 rounded shadow">
+    <h1 class="text-2xl font-bold mb-4">Szczegóły konfliktu</h1>
+    <dl class="grid grid-cols-1 gap-2">
+        <div><dt class="font-semibold inline">ID encji:</dt> <dd class="inline" th:text="${konflikt.id}"></dd></div>
+        <div><dt class="font-semibold inline">ConflictId:</dt> <dd class="inline" th:text="${konflikt.conflictId}"></dd></div>
+        <div><dt class="font-semibold inline">Lokalizacja:</dt> <dd class="inline" th:text="${konflikt.location}"></dd></div>
+        <div><dt class="font-semibold inline">Strona A:</dt> <dd class="inline" th:text="${konflikt.sideA}">—</dd></div>
+        <div><dt class="font-semibold inline">Strona B:</dt> <dd class="inline" th:text="${konflikt.sideB}">—</dd></div>
+        <div><dt class="font-semibold inline">Rok:</dt> <dd class="inline" th:text="${konflikt.rok}">—</dd></div>
+        <div><dt class="font-semibold inline">Data początku:</dt>
+            <dd class="inline" th:text="${konflikt.startDate != null ? konflikt.startDate.toString() : '—'}"></dd>
+        </div>
+        <div><dt class="font-semibold inline">Data zakończenia:</dt>
+            <dd class="inline" th:text="${konflikt.epEndDate != null ? konflikt.epEndDate.toString() : '—'}"></dd>
+        </div>
+    </dl>
+    <div class="mt-4">
+        <a href="/" class="text-blue-600 hover:underline">← Powrót do wykresu</a>
+    </div>
+</div>
+</body>
+</html>

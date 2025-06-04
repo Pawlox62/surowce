@@ -1,25 +1,21 @@
 package com.surowce.controller;
 
-import com.surowce.entity.Surowiec;
 import com.surowce.service.SurowiecService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.List;
-
 @Controller
-public class MvcController {
+public class ImpactController {
     private final SurowiecService service;
 
-    public MvcController(SurowiecService service) {
+    public ImpactController(SurowiecService service) {
         this.service = service;
     }
 
     @GetMapping("/")
-    public String pokazStrone(Model model) {
-        List<Surowiec> lista = service.pobierzWszystkie();
-        model.addAttribute("surowce", lista);
-        return "index";
+    public String impact(Model model) {
+        model.addAttribute("surowce", service.all());
+        return "impact";
     }
 }
