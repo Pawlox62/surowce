@@ -1,12 +1,16 @@
+// src/main/resources/static/js/impact.js
+
 const ctx = document.getElementById('chart').getContext('2d');
 
 let chart = new Chart(ctx, {
   type: 'line',
   data: {
+    // labels nie są już wykorzystywane, bo oś X to typ 'time'
     labels: [],
     datasets: [
       {
         label: 'Cena',
+        // Teraz tablica obiektów { x: "YYYY-MM-DD", y: liczba }
         data: [],
         borderWidth: 2,
         pointRadius: 3,
@@ -17,6 +21,7 @@ let chart = new Chart(ctx, {
       {
         type: 'scatter',
         label: 'Konflikty',
+        // Tablica obiektów { x: "YYYY-MM-DD", y: liczba, conflictId, location, sideA, sideB }
         data: [],
         pointRadius: 6,
         borderWidth: 2,
@@ -34,8 +39,9 @@ let chart = new Chart(ctx, {
       tooltip: {
         callbacks: {
           label: ctx => {
+            // Jeśli to punkt konfliktu (datasetIndex === 1)
             if (ctx.datasetIndex === 1) {
-              const d = ctx.raw;
+              const d = ctx.raw; // raw zawiera cały obiekt
               return [
                 `Konflikt ID: ${d.conflictId}`,
                 `Lokalizacja: ${d.location}`,
@@ -45,6 +51,7 @@ let chart = new Chart(ctx, {
                 `Cena: ${d.y}`
               ];
             }
+            // Standardowy tooltip ceny
             return `Cena: ${ctx.formattedValue}`;
           }
         }
@@ -70,10 +77,12 @@ let chart = new Chart(ctx, {
       }
     },
     onClick: (evt, elements) => {
+      // Jeśli kliknięto punkt konfliktu (datasetIndex === 1)
       if (elements.length && elements[0].datasetIndex === 1) {
         const idx = elements[0].index;
         const raw = chart.data.datasets[1].data[idx];
         const conflictId = raw.conflictId;
+        // przekierowanie do szczegółów konfliktu
         window.location.href = `/konflikty/${conflictId}`;
       }
     }
@@ -98,13 +107,15 @@ function load() {
       chart.update();
       return;
     }
-}
+
+    // 1) Zbuduj tablicę punktów cenowych: { x: "YYYY-MM-DD", y: liczba }
     const pricePoints = prices.map(p => ({
       x: p.date,
       y: Number(p.value)
     }));
     chart.data.datasets[0].data = pricePoints;
 
+    // 2) Przygotuj mapę do wyszukiwania najbliższej ceny
     const datePriceMap = new Map();
     prices.forEach(p => datePriceMap.set(p.date, Number(p.value)));
     const sortedDates = prices
@@ -131,6 +142,7 @@ function load() {
       return null;
     }
 
+    // 3) Zbuduj tablicę punktów konfliktów: { x: "YYYY-MM-DD", y: liczba, conflictId, … }
     const usedYears = new Set();
     const conflictPoints = [];
     conflicts.forEach(c => {
@@ -161,10 +173,13 @@ function auth() {
   return { 'Authorization': 'Basic ' + btoa('user:haslo') };
 }
 
+// --- POCZĄTEK: klient WebSocket (STOMP) ---
 const socket = new SockJS('/ws');
 const stomp  = Stomp.over(socket);
 stomp.connect({}, () => {
   stomp.subscribe('/topic/price-update', () => {
+    // Po otrzymaniu komunikatu "reload" strona się przeładuje, by dane zaktualizować
     location.reload();
   });
 });
+// --- KONIEC: klient WebSocket ---
