@@ -3,44 +3,80 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Dashboard</title>
-    <link rel="stylesheet" th:href="@{/css/tailwind.min.css}"/>
+    <!-- TailwindCSS (możesz też podlinkować lokalnie plik w /static/css/) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Date adapter (date-fns) dla osi time w Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <!-- SockJS + STOMP (jeśli korzystasz z WebSocketów) -->
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
 </head>
 <body class="bg-gray-100 p-6">
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Sekcja „Surowce” -->
     <div class="bg-white rounded-2xl shadow p-4">
         <h2 class="text-xl mb-2">Surowce</h2>
-        <input id="dateFrom" type="date" class="border p-1 mr-2"/>
-        <input id="dateTo" type="date" class="border p-1 mr-2"/>
-        <button id="filterBtn" class="bg-blue-600 text-white px-3 py-1 rounded">Filtruj</button>
+        <div class="flex items-center mb-2">
+            <label class="mr-2" for="dateFrom">Od:</label>
+            <input id="dateFrom" type="date" class="border p-1 mr-4"/>
+
+            <label class="mr-2" for="dateTo">Do:</label>
+            <input id="dateTo" type="date" class="border p-1 mr-4"/>
+
+            <button id="filterBtn" class="bg-blue-600 text-white px-3 py-1 rounded">
+                Filtruj
+            </button>
+        </div>
+
         <table class="w-full mt-4">
-            <thead><tr><th>ID</th><th>Nazwa</th><th>Cena</th></tr></thead>
+            <thead>
+            <tr>
+                <th class="px-2 py-1 text-left">ID</th>
+                <th class="px-2 py-1 text-left">Nazwa</th>
+                <th class="px-2 py-1 text-left">Cena</th>
+            </tr>
+            </thead>
             <tbody>
-            <tr th:each="s : ${surowce}" class="hover:bg-gray-100 cursor-pointer" th:data-id="${s.id}">
-                <td th:text="${s.id}"></td>
-                <td th:text="${s.nazwa}"></td>
-                <td th:text="${s.cena}"></td>
+            <tr th:each="s : ${surowce}"
+                class="hover:bg-gray-100 cursor-pointer"
+                th:data-id="${s.id}">
+                <td class="border px-2 py-1" th:text="${s.id}"></td>
+                <td class="border px-2 py-1" th:text="${s.nazwa}"></td>
+                <td class="border px-2 py-1" th:text="${s.cena}"></td>
             </tr>
             </tbody>
         </table>
+
         <canvas id="priceChart" class="mt-4"></canvas>
     </div>
+
+    <!-- Sekcja „Konflikty” -->
     <div class="bg-white rounded-2xl shadow p-4">
         <h2 class="text-xl mb-2">Konflikty</h2>
         <table class="w-full">
-            <thead><tr><th>ID</th><th>Nazwa</th><th>Państwa</th></tr></thead>
+            <thead>
+            <tr>
+                <th class="px-2 py-1 text-left">ID</th>
+                <th class="px-2 py-1 text-left">Nazwa</th>
+                <th class="px-2 py-1 text-left">Państwa</th>
+            </tr>
+            </thead>
             <tbody>
-            <tr th:each="k: ${konflikty}">
-                <td th:text="${k.id}"></td>
-                <td th:text="${k.location}"></td>
-                <td th:text="${k.sideA} + ' vs ' + ${k.sideB}"></td>
+            <tr th:each="k : ${konflikty}">
+                <td class="border px-2 py-1" th:text="${k.id}"></td>
+                <td class="border px-2 py-1" th:text="${k.location}"></td>
+                <td class="border px-2 py-1"
+                    th:text="${k.sideA} + ' vs ' + ${k.sideB}"></td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
+
+<!-- Podpięcie pliku JavaScript w /static/js/app.js -->
 <script th:src="@{/js/app.js}"></script>
 </body>
 </html>

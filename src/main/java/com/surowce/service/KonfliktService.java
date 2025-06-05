@@ -4,6 +4,7 @@ import com.surowce.entity.Konflikt;
 import com.surowce.repository.KonfliktRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -27,5 +28,10 @@ public class KonfliktService {
     @Transactional(readOnly = true)
     public List<Konflikt> inYears(Integer from, Integer to) {
         return repo.findByRokBetween(from, to);
+    }
+
+    @Transactional
+    public void saveAll(List<Konflikt> konflikty) {
+        repo.saveAll(konflikty);
     }
 }

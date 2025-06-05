@@ -55,7 +55,7 @@ public class ApiController {
         return surowiecSvc.prices(id, from, to);
     }
 
-    /* --- EKSPORT / IMPORT JSON | XML --- */
+    /* --- EKSPORT / IMPORT SUROWCE (JSON | XML) --- */
 
     @GetMapping(
             value = "/surowce/export",
@@ -101,5 +101,24 @@ public class ApiController {
             @RequestParam Integer to
     ) {
         return konfliktSvc.inYears(from, to);
+    }
+
+    /* --- EKSPORT / IMPORT KONFLIKTY (JSON | XML) --- */
+
+    @GetMapping(
+            value = "/konflikty/export",
+            produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }
+    )
+    public List<Konflikt> exportKonflikty() {
+        return konfliktSvc.all();
+    }
+
+    @PostMapping(
+            value = "/konflikty/import",
+            consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }
+    )
+    public ResponseEntity<Void> importKonflikty(@RequestBody List<Konflikt> body) {
+        konfliktSvc.saveAll(body);
+        return ResponseEntity.accepted().build();
     }
 }

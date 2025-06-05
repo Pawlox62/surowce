@@ -26,23 +26,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // Wyłączamy CSRF, by nie blokowało H2-console
                 .csrf(AbstractHttpConfigurer::disable)
 
-                // Zezwalamy, żeby konsola H2 (w iframe) się wczytała
                 .headers(headers -> headers.frameOptions().disable())
 
-                // Reguły dostępu:
                 .authorizeHttpRequests(auth -> auth
-                        // dostęp do H2 Console bez logowania
                         .requestMatchers("/h2-console/**").permitAll()
-                        // REST API wymaga roli USER
                         .requestMatchers("/api/**").hasRole("USER")
-                        // wszystkie pozostałe ścieżki (np. statyczne zasoby, Thymeleaf) dostępne dla każdego
                         .anyRequest().permitAll()
                 )
 
-                // Basic Auth dla /api/**
                 .httpBasic(Customizer.withDefaults());
 
         return http.build();

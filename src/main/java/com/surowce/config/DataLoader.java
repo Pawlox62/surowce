@@ -115,7 +115,6 @@ public class DataLoader {
                     k.setSideB(row[idx.get("side_b")]);
                     k.setRok(Integer.parseInt(yearStr));
 
-                    // start_date w formacie "YYYY-MM-DD"
                     String sd = row[idx.get("start_date")];
                     if (sd != null && !sd.isEmpty()) {
                         try {
@@ -123,7 +122,6 @@ public class DataLoader {
                         } catch (Exception ignored) { }
                     }
 
-                    // ep_end_date w formacie "YYYY-MM-DD"
                     String ed = row[idx.get("ep_end_date")];
                     if (ed != null && !ed.isEmpty()) {
                         try {

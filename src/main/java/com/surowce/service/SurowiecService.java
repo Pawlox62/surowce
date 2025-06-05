@@ -27,8 +27,6 @@ public class SurowiecService {
         this.loader       = loader;
     }
 
-    /*--- główne metody ---*/
-
     @Transactional(readOnly = true)
     public List<Surowiec> findAll() {
         return surowiecRepo.findAll();
@@ -51,23 +49,15 @@ public class SurowiecService {
         loader.load();
     }
 
-    /**
-     * Import lub aktualizacja listy surowców.
-     * Dla każdego obiektu:
-     *  - jeśli w bazie istnieje wpis o tej samej nazwie → pobierz i zaktualizuj cenę,
-     *  - w przeciwnym razie → wstaw nowy rekord.
-     */
     @Transactional
     public void saveAll(List<Surowiec> listaSurowcow) {
         for (Surowiec su : listaSurowcow) {
             Optional<Surowiec> istniejącyOpt = surowiecRepo.findByNazwa(su.getNazwa());
             if (istniejącyOpt.isPresent()) {
-                // Aktualizacja istniejącego rekordu
                 Surowiec istniejący = istniejącyOpt.get();
                 istniejący.setCena(su.getCena());
                 surowiecRepo.save(istniejący);
             } else {
-                // Nowy obiekt: usuń ewentualne ID i wstaw
                 su.setId(null);
                 surowiecRepo.save(su);
             }

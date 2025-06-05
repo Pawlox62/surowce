@@ -16,10 +16,6 @@ public class PriceScheduler {
         this.broker = broker;
     }
 
-    /**
-     * Odświeżanie cen co X milisekund (domyślnie 300000 ms = 5 minut).
-     * Wysyła wiadomość na kanał /topic/price-update, żeby front mógł się przeładować.
-     */
     @Scheduled(fixedRateString = "${app.reload-ms:300000}")
     public void reloadPrices() {
         service.reload();

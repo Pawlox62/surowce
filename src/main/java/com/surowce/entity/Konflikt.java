@@ -16,15 +16,10 @@ public class Konflikt {
     @Column(columnDefinition = "TEXT")
     private String sideB;
     private Integer rok;
-
-    // to muszą być dokładne pola (z getterami/setterami)
     private LocalDate startDate;
     private LocalDate epEndDate;
-
-    // —–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-
     public String getConflictId() { return conflictId; }
     public void setConflictId(String conflictId) { this.conflictId = conflictId; }
 
