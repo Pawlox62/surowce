@@ -1,6 +1,6 @@
-#README: URUCHOMIANIE APLIKACJI “Surowce i Konflikty”
+# README: URUCHOMIANIE APLIKACJI “Surowce i Konflikty”
 
-##Poniższy plik opisuje trzy różne sposoby uruchomienia aplikacji:
+## Poniższy plik opisuje trzy różne sposoby uruchomienia aplikacji:
   1. Uruchomienie w IntelliJ IDEA
   2. Uruchomienie jako samodzielny plik JAR
   3. Uruchomienie w kontenerze Docker (w WSL na Windows lub natywnie na Linuxie)
@@ -8,7 +8,7 @@
 Na końcu znajdziesz komendy curl oraz sposób korzystania z GUI w przeglądarce do testowania najważniejszych endpointów.
 
 ----------------------------------------
-#1. URUCHOMIENIE W INTELLIJ IDEA
+## 1. URUCHOMIENIE W INTELLIJ IDEA
 ----------------------------------------
 
 1.1. Wymagania wstępne:
@@ -36,7 +36,7 @@ Na końcu znajdziesz komendy curl oraz sposób korzystania z GUI w przeglądarce
      4. Aplikacja nasłuchuje domyślnie na porcie 8080.
 
 ----------------------------------------
-2. URUCHOMIENIE JAKO PLIK JAR
+## 2. URUCHOMIENIE JAKO PLIK JAR
 ----------------------------------------
 
 2.1. Wymagania wstępne:
@@ -73,7 +73,7 @@ Na końcu znajdziesz komendy curl oraz sposób korzystania z GUI w przeglądarce
        ```
 
 ----------------------------------------
-3. URUCHOMIENIE W DOCKERZE (WSL NA WINDOWS LUB NATYWNIE NA LINUXIE)
+## 3. URUCHOMIENIE W DOCKERZE (WSL NA WINDOWS LUB NATYWNIE NA LINUXIE)
 ----------------------------------------
 
 3.1. Wymagania wstępne:
@@ -169,7 +169,7 @@ Na końcu znajdziesz komendy curl oraz sposób korzystania z GUI w przeglądarce
         ```
 
 ----------------------------------------
-4. TESTOWANIE ENDPOINTÓW CURL
+## 4. TESTOWANIE ENDPOINTÓW CURL
 ----------------------------------------
 
 4.1. Pobranie wszystkich surowców (JSON):
@@ -290,7 +290,7 @@ Na końcu znajdziesz komendy curl oraz sposób korzystania z GUI w przeglądarce
        ```
 
 ----------------------------------------
-5. TESTOWANIE W GUI W PRZEGLĄDARCE
+## 5. TESTOWANIE W GUI W PRZEGLĄDARCE
 ----------------------------------------
 
 5.1. Wymagania:
@@ -325,7 +325,7 @@ Na końcu znajdziesz komendy curl oraz sposób korzystania z GUI w przeglądarce
         • Zobaczysz konflikty z lat 2000–2020.
 
 ----------------------------------------
-6. TESTOWANIE FRONTEND W PRZEGLĄDARCE (Chart.js)
+## 6. TESTOWANIE FRONTEND W PRZEGLĄDARCE (Chart.js)
 ----------------------------------------
 
 6.1. Otwórz (po starcie aplikacji):
@@ -369,7 +369,7 @@ Na końcu znajdziesz komendy curl oraz sposób korzystania z GUI w przeglądarce
      4. Wykres zostanie narysowany ponownie z ewentualnie zaktualizowanymi danymi.
 
 ----------------------------------------
-7. SPRAWDZANIE H2-CONSOLE (opcjonalnie)
+## 7. SPRAWDZANIE H2-CONSOLE (opcjonalnie)
 ----------------------------------------
 
 7.1. Wymagania:
@@ -393,7 +393,7 @@ Na końcu znajdziesz komendy curl oraz sposób korzystania z GUI w przeglądarce
      ```
 
 ----------------------------------------
-8. PODSUMOWANIE
+## 8. PODSUMOWANIE
 ----------------------------------------
 
 Po wykonaniu powyższych kroków Twoja aplikacja powinna działać poprawnie, a wszystkie najważniejsze funkcjonalności (REST, eksport/import, front-end z wykresem, WebSocket, Docker, H2‐Console) będą dostępne i przetestowane.  
