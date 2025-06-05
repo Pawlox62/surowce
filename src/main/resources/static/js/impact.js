@@ -5,27 +5,30 @@ const ctx = document.getElementById('chart').getContext('2d');
 let chart = new Chart(ctx, {
   type: 'line',
   data: {
-    labels: [],    // daty w formacie "YYYY-MM-DD"
+    // labels nie są już wykorzystywane, bo oś X to typ 'time'
+    labels: [],
     datasets: [
       {
         label: 'Cena',
-        data: [],            // tablica liczb
+        // Teraz tablica obiektów { x: "YYYY-MM-DD", y: liczba }
+        data: [],
         borderWidth: 2,
         pointRadius: 3,
         borderColor: '#3b82f6',
         backgroundColor: '#3b82f6',
-        order: 2            // rysowana najpierw (pod spodem)
+        order: 2
       },
       {
         type: 'scatter',
         label: 'Konflikty',
-        data: [],            // obiekty: { x, y, conflictId, location, sideA, sideB }
+        // Tablica obiektów { x: "YYYY-MM-DD", y: liczba, conflictId, location, sideA, sideB }
+        data: [],
         pointRadius: 6,
         borderWidth: 2,
         borderColor: '#dc2626',
         backgroundColor: '#f87171',
         showLine: false,
-        order: 1            // rysowana na wierzchu
+        order: 1
       }
     ]
   },
@@ -38,7 +41,7 @@ let chart = new Chart(ctx, {
           label: ctx => {
             // Jeśli to punkt konfliktu (datasetIndex === 1)
             if (ctx.datasetIndex === 1) {
-              const d = ctx.raw; // raw zawiera cały obiekt, nie tylko {x,y}
+              const d = ctx.raw; // raw zawiera cały obiekt
               return [
                 `Konflikt ID: ${d.conflictId}`,
                 `Lokalizacja: ${d.location}`,
@@ -48,7 +51,7 @@ let chart = new Chart(ctx, {
                 `Cena: ${d.y}`
               ];
             }
-            // Inaczej standardowy tooltip ceny
+            // Standardowy tooltip ceny
             return `Cena: ${ctx.formattedValue}`;
           }
         }
@@ -56,6 +59,14 @@ let chart = new Chart(ctx, {
     },
     scales: {
       x: {
+        type: 'time',
+        time: {
+          parser: 'yyyy-MM-dd',
+          unit: 'month',
+          displayFormats: {
+            month: 'yyyy-MM'
+          }
+        },
         ticks: {
           maxRotation: 0,
           autoSkip: true
@@ -91,22 +102,22 @@ function load() {
     fetch(`/api/konflikty/range?from=${from.slice(0,4)}&to=${to.slice(0,4)}`, { headers: auth() }).then(r => r.json())
   ]).then(([prices, conflicts]) => {
     if (!prices || prices.length === 0) {
-      chart.data.labels = [];
       chart.data.datasets[0].data = [];
       chart.data.datasets[1].data = [];
       chart.update();
       return;
     }
 
-    // 1) Ustaw daty i ceny
-    chart.data.labels = prices.map(p => p.date);
-    chart.data.datasets[0].data = prices.map(p => Number(p.value));
+    // 1) Zbuduj tablicę punktów cenowych: { x: "YYYY-MM-DD", y: liczba }
+    const pricePoints = prices.map(p => ({
+      x: p.date,
+      y: Number(p.value)
+    }));
+    chart.data.datasets[0].data = pricePoints;
 
-    // 2) Przygotuj mapę z datami i cenami (Map<"YYYY-MM-DD", Number>)
+    // 2) Przygotuj mapę do wyszukiwania najbliższej ceny
     const datePriceMap = new Map();
     prices.forEach(p => datePriceMap.set(p.date, Number(p.value)));
-
-    // 3) Sortuj ceny po dacie (Date) by móc wyszukać najbliższą wcześniejszą
     const sortedDates = prices
       .map(p => new Date(p.date + 'T00:00:00'))
       .sort((a, b) => a - b);
@@ -131,7 +142,7 @@ function load() {
       return null;
     }
 
-    // 4) Zbuduj tablicę punktów konfliktów z dodatkowymi polami
+    // 3) Zbuduj tablicę punktów konfliktów: { x: "YYYY-MM-DD", y: liczba, conflictId, … }
     const usedYears = new Set();
     const conflictPoints = [];
     conflicts.forEach(c => {
@@ -152,8 +163,8 @@ function load() {
         }
       }
     });
-
     chart.data.datasets[1].data = conflictPoints;
+
     chart.update();
   });
 }
@@ -167,7 +178,7 @@ const socket = new SockJS('/ws');
 const stomp  = Stomp.over(socket);
 stomp.connect({}, () => {
   stomp.subscribe('/topic/price-update', () => {
-    // Po otrzymaniu komunikatu "reload" strona się przeładuje, by dane się zaktualizowały
+    // Po otrzymaniu komunikatu "reload" strona się przeładuje, by dane zaktualizować
     location.reload();
   });
 });

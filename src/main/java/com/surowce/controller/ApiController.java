@@ -27,37 +27,47 @@ public class ApiController {
 
     /* ---------- SUROWCE ---------- */
 
-    @GetMapping("/surowce")
+    @GetMapping(
+            value = "/surowce",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public List<Surowiec> surowce() {
         return surowiecSvc.all();
     }
 
-    @GetMapping("/surowce/{id}")
+    @GetMapping(
+            value = "/surowce/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public Surowiec surowiec(@PathVariable Long id) {
         return surowiecSvc.one(id);
     }
 
-    @GetMapping("/surowce/{id}/prices")
-    public List<PricePointDto> prices(@PathVariable Long id,
-                                      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
-                                      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
+    @GetMapping(
+            value = "/surowce/{id}/prices",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public List<PricePointDto> prices(
+            @PathVariable Long id,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to
+    ) {
         return surowiecSvc.prices(id, from, to);
     }
 
-    /* --- NOWE: eksport / import JSON | XML --- */
+    /* --- EKSPORT / IMPORT JSON | XML --- */
 
     @GetMapping(
             value = "/surowce/export",
-            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
+            produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }
     )
     public List<Surowiec> exportSurowce() {
-        // zwracamy pełną listę – format decyduje nagłówek Accept
         return surowiecSvc.all();
     }
 
     @PostMapping(
             value = "/surowce/import",
-            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
+            consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }
     )
     public ResponseEntity<Void> importSurowce(@RequestBody List<Surowiec> body) {
         surowiecSvc.saveAll(body);
@@ -66,19 +76,30 @@ public class ApiController {
 
     /* ---------- KONFLIKTY ---------- */
 
-    @GetMapping("/konflikty")
+    @GetMapping(
+            value = "/konflikty",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public List<Konflikt> konflikty() {
         return konfliktSvc.all();
     }
 
-    @GetMapping("/konflikty/{id}")
+    @GetMapping(
+            value = "/konflikty/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     public Konflikt konflikt(@PathVariable Long id) {
         return konfliktSvc.one(id);
     }
 
-    @GetMapping("/konflikty/range")
-    public List<Konflikt> konfliktyInRange(@RequestParam Integer from,
-                                           @RequestParam Integer to) {
+    @GetMapping(
+            value = "/konflikty/range",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public List<Konflikt> konfliktyInRange(
+            @RequestParam Integer from,
+            @RequestParam Integer to
+    ) {
         return konfliktSvc.inYears(from, to);
     }
 }

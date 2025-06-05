@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SurowiecService {
@@ -51,11 +52,26 @@ public class SurowiecService {
     }
 
     /**
-     * Zapisuje listę surowców (używane przez import).
+     * Import lub aktualizacja listy surowców.
+     * Dla każdego obiektu:
+     *  - jeśli w bazie istnieje wpis o tej samej nazwie → pobierz i zaktualizuj cenę,
+     *  - w przeciwnym razie → wstaw nowy rekord.
      */
     @Transactional
     public void saveAll(List<Surowiec> listaSurowcow) {
-        surowiecRepo.saveAll(listaSurowcow);
+        for (Surowiec su : listaSurowcow) {
+            Optional<Surowiec> istniejącyOpt = surowiecRepo.findByNazwa(su.getNazwa());
+            if (istniejącyOpt.isPresent()) {
+                // Aktualizacja istniejącego rekordu
+                Surowiec istniejący = istniejącyOpt.get();
+                istniejący.setCena(su.getCena());
+                surowiecRepo.save(istniejący);
+            } else {
+                // Nowy obiekt: usuń ewentualne ID i wstaw
+                su.setId(null);
+                surowiecRepo.save(su);
+            }
+        }
     }
 
     /*--- aliasy dla kontrolerów ---*/
