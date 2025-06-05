@@ -1,14 +1,13 @@
-# Używamy lekkiego obrazu OpenJDK 21
+# Używamy obrazu z OpenJDK 21 (slim)
 FROM openjdk:21-jdk-slim
 
-# Port, na którym aplikacja będzie nasłuchiwać
+# Ustawiamy port, na którym aplikacja nasłuchuje
 EXPOSE 8080
 
-# Zmienna określa nazwę pliku JAR wygenerowanego przez Maven
-ARG JAR_FILE=target/surowce-app-0.0.1-SNAPSHOT.jar
+ARG JAR_FILE=target/surowce-0.0.1-SNAPSHOT.jar
 
-# Kopiujemy zbudowany JAR do obrazu
+# Kopiujemy zbudowany JAR do katalogu głównego obrazu jako /app.jar
 COPY ${JAR_FILE} /app.jar
 
-# Uruchamiamy aplikację
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+# Punkt wejścia: uruchamiamy aplikację
+ENTRYPOINT ["java","-jar","/app.jar"]
