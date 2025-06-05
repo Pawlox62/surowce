@@ -3,20 +3,15 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Dashboard</title>
-    <!-- TailwindCSS (możesz też podlinkować lokalnie plik w /static/css/) -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Date adapter (date-fns) dla osi time w Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
-    <!-- SockJS + STOMP (jeśli korzystasz z WebSocketów) -->
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
 </head>
 <body class="bg-gray-100 p-6">
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <!-- Sekcja „Surowce” -->
     <div class="bg-white rounded-2xl shadow p-4">
         <h2 class="text-xl mb-2">Surowce</h2>
         <div class="flex items-center mb-2">
@@ -53,7 +48,6 @@
         <canvas id="priceChart" class="mt-4"></canvas>
     </div>
 
-    <!-- Sekcja „Konflikty” -->
     <div class="bg-white rounded-2xl shadow p-4">
         <h2 class="text-xl mb-2">Konflikty</h2>
         <table class="w-full">
@@ -76,7 +70,6 @@
     </div>
 </div>
 
-<!-- Podpięcie pliku JavaScript w /static/js/app.js -->
 <script th:src="@{/js/app.js}"></script>
 </body>
 </html>
