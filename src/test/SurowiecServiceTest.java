@@ -17,7 +17,6 @@ public class SurowiecServiceTest {
 
     @Test
     void powinnoPobracWszystkieSurowce() {
-        // Wywołujemy metodę 'all()' (alias do findAll())
         List<Surowiec> lista = surowiecService.all();
         assertThat(lista).isNotEmpty();
     }

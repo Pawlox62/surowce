@@ -29,8 +29,6 @@ public class IsolationLevelTest {
             c1.setAutoCommit(false);
             c2.setAutoCommit(false);
 
-            // Używamy nazw kolumn tak, jak Hibernate je wygenerował,
-            // czyli bez podkreśleń: SIDEA i SIDEB (w zapisie SQL wystarczy "sidea", "sideb").
             try (PreparedStatement ps = c1.prepareStatement(
                     "INSERT INTO KONFLIKT (conflict_id, location, sidea, sideb, rok) VALUES (?, ?, ?, ?, ?)")) {
                 ps.setString(1, "TEST-ISO");
@@ -41,14 +39,11 @@ public class IsolationLevelTest {
                 ps.executeUpdate();
             }
 
-            // W c2 powinno zwrócić 0, bo c1 jeszcze nie commitował
             int countBeforeCommit = queryCount(c2, "TEST-ISO");
             Assertions.assertEquals(0, countBeforeCommit, "Niezatwierdzone dane nie mogą być widoczne");
 
-            // Commit w c1
             c1.commit();
 
-            // Po commicie c2 powinno widzieć już 1 wiersz
             int countAfterCommit = queryCount(c2, "TEST-ISO");
             Assertions.assertEquals(1, countAfterCommit, "Po commit dane powinny być widoczne");
         }
