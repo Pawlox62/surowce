@@ -1,6 +1,6 @@
-README: URUCHOMIANIE APLIKACJI “Surowce i Konflikty”
+#README: URUCHOMIANIE APLIKACJI “Surowce i Konflikty”
 
-Poniższy plik opisuje trzy różne sposoby uruchomienia aplikacji:
+##Poniższy plik opisuje trzy różne sposoby uruchomienia aplikacji:
   1. Uruchomienie w IntelliJ IDEA
   2. Uruchomienie jako samodzielny plik JAR
   3. Uruchomienie w kontenerze Docker (w WSL na Windows lub natywnie na Linuxie)
@@ -8,7 +8,7 @@ Poniższy plik opisuje trzy różne sposoby uruchomienia aplikacji:
 Na końcu znajdziesz komendy curl oraz sposób korzystania z GUI w przeglądarce do testowania najważniejszych endpointów.
 
 ----------------------------------------
-1. URUCHOMIENIE W INTELLIJ IDEA
+#1. URUCHOMIENIE W INTELLIJ IDEA
 ----------------------------------------
 
 1.1. Wymagania wstępne:
