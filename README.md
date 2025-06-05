@@ -323,6 +323,12 @@ Na końcu znajdziesz komendy curl oraz sposób korzystania z GUI w przeglądarce
         http://localhost:8080/api/konflikty/range?from=2000&to=2020
         ```
         • Zobaczysz konflikty z lat 2000–2020.
+      
+     6. Wpisz:
+        ```
+        http://localhost:8080/dashboard
+        ```
+        • Zobaczysz surowce i konflikty z wykresem
 
 ----------------------------------------
 ## 6. TESTOWANIE FRONTEND W PRZEGLĄDARCE (Chart.js)
@@ -332,7 +338,7 @@ Na końcu znajdziesz komendy curl oraz sposób korzystania z GUI w przeglądarce
      ```
      http://localhost:8080/
      ```
-     – powinien załadować się plik `impact.html`.
+     – powinien załadować się plik `index.html`.
 
 6.2. Elementy strony:
      • **Dropdown “Surowiec”** – wypełniony listą z bazy (dzięki ViewController i Thymeleaf).  
